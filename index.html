@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор возврата долга</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 { color: #333; margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .input-group { margin-bottom: 1rem; text-align: left; }
+        label { display: block; margin-bottom: 0.5rem; color: #666; font-size: 0.9rem; }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box; /* Важно для отступов */
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #218838; }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            display: none; /* Скрыто по умолчанию */
+        }
+        .result p { margin: 5px 0; font-size: 1.1rem; }
+        .final-sum { font-weight: bold; color: #d9534f; font-size: 1.4rem; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>💰 Калькулятор возврата</h1>
+    
+    <div class="input-group">
+        <label for="amount">Сумма долга (руб):</label>
+        <input type="number" id="amount" placeholder="Например: 10000">
+    </div>
+
+    <div class="input-group">
+        <label for="percent">Процент накрутки (%):</label>
+        <input type="number" id="percent" placeholder="Например: 20">
+    </div>
+
+    <button onclick="calculate()">Рассчитать</button>
+
+    <div id="resultBox" class="result">
+        <p>Ты взял: <span id="displayAmount">0</span> ₽</p>
+        <p>Процент: <span id="displayPercent">0</span>%</p>
+        <hr style="border: 0; border-top: 1px solid #ccc;">
+        <p>Вернуть нужно: <br><span class="final-sum" id="finalSum">0</span> ₽</p>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        // Получаем значения из полей ввода
+        const amount = parseFloat(document.getElementById('amount').value);
+        const percent = parseFloat(document.getElementById('percent').value);
+        const resultBox = document.getElementById('resultBox');
+
+        // Проверка, что введены числа
+        if (isNaN(amount) || isNaN(percent)) {
+            alert("Пожалуйста, введите корректные числа");
+            return;
+        }
+
+        // Формула: Сумма + (Сумма * Процент / 100)
+        const extra = amount * (percent / 100);
+        const total = amount + extra;
+
+        // Вывод результатов
+        document.getElementById('displayAmount').innerText = amount.toLocaleString();
+        document.getElementById('displayPercent').innerText = percent;
+        document.getElementById('finalSum').innerText = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        // Показываем блок с результатом
+        resultBox.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
